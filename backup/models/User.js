@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const crypto = require('crypto')
 
 
 let UserSchema = new mongoose.Schema({
@@ -16,5 +17,3 @@ let UserSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
-
-mongoose.model('User', UserSchema);
