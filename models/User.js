@@ -30,7 +30,11 @@ UserSchema.methods = {
 
 
   validPassword: async (password) => {
-    const isPasswordMatch = await bcrypt.compare(password, this.password, function(){})
+    const isPasswordMatch = await bcrypt.compare(password, this.password, function(err, res){
+      if (err){
+        console.log(err)
+      }
+    })
     return isPasswordMatch
   },
 
