@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha"
+    "test": "mocha --recursive --exit",
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -26,7 +27,10 @@
     "uglify-js": "^3.7.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
     "sinon": "^7.5.0"
   }
 }
