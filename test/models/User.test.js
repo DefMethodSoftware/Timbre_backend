@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 const chai = require('chai')
 const expect = chai.expect
 const sinon = require('sinon')
-const User = require('../models/User')
+const User = require('../../lib/models/User')
 let db
 before(function (done) {
   mongoose.connect('mongodb://127.0.0.1:27017/timbre_test');
@@ -22,7 +21,6 @@ describe('User', function() {
     done()
     this.user = new User({email: 'test@test.com', password: 'testpassword'})
   })
-  
   describe('toAuthJSON', function() {
     it('returns a JSON of the user and JWT token', function() {
       this.user.generateJWT = sinon.fake.returns('JWT')
