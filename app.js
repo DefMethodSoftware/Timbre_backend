@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const PORT = 4000;
+const port = 4000;
+require('./db/db')
 
 require('./models/User')
 require('./config/passport');
@@ -48,10 +48,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
-const connection = mongoose.connection;
-connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
 })
 
-module.exports = app;
+// module.exports = app;
