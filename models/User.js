@@ -35,7 +35,7 @@ UserSchema.methods = {
     let today = new Date()
     let exp = new Date(today)
     exp.setDate(today.getDate() + 60)
-  
+
     return jwt.sign({
       id: this._id,
       email: this.email,
@@ -73,4 +73,6 @@ UserSchema.methods = {
 //   }, secret)
 // }
 
-mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User
