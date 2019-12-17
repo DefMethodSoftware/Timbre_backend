@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.post('/users', async (req, res, next) => {
   let user = new User(req.body)
-  user.setPassword(req.body.password)
   user.save().then(()=>{
     res.status(201).send(user.toAuthJSON())
   }).catch(next)

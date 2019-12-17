@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const secret = require('../config').secret
-
+const bcrypt = require('bcryptjs')
 
 let UserSchema = new mongoose.Schema({
   email: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
-  hash: String,
-  salt: String,
+  password: {type: String, require: [true, "can't be blank"]},
   firstName: String,
   lastName: String,
   instrument: String,
@@ -20,15 +18,20 @@ let UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
-UserSchema.methods = {
-  setPassword: (password) => {
-    this.salt = crypto.randomBytes(16).toString('hex')
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
-  },
+UserSchema.pre('save', async function (next) {
+  const user = this
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8)
+  }
+  next()
+})
 
-  validPassword: (password) => {
-    let hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
-    return this.hash === hash
+UserSchema.methods = {
+
+
+  validPassword: async (password) => {
+    const isPasswordMatch = await bcrypt.compare(password, this.password, function(){})
+    return isPasswordMatch
   },
 
   generateJWT: () => {
