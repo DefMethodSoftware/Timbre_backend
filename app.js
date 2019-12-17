@@ -8,9 +8,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000;
 
+require('./models/User')
+require('./config/passport');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-require('./models/User')
 
 const app = express();
 
