@@ -24,11 +24,8 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
   jwtFromRequest: fromHeader,
-  secretOrKey: secret,
-  algorithms: ["HS256"]
+  secretOrKey: secret,  
 }, (jwt_payload, done) => {
-  console.log(jwt_payload, "in jwt strat")
-  User.findOne({email: jwt_payload.email}, function(err, user){console.log(err, user)})
   User.findOne({email: jwt_payload.email}, function(err, user) {
     if (err) {
       return done(err, false)
