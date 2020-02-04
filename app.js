@@ -9,6 +9,7 @@ const passport = require('passport')
 
 const usersRouter = require('./lib/routers/users');
 const bandsRouter = require('./lib/routers/bands');
+const membershipRequestsRouter = require('./lib/routers/membershipRequests');
 
 const app = express();
 
@@ -23,11 +24,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize())
 app.use(usersRouter);
 app.use(bandsRouter);
+app.use(membershipRequestsRouter);
 
 require('./db/db')
 
 require('./lib/models/User')
 require('./lib/models/Band')
+require('./lib/models/MembershipRequest')
 require('./config/passport');
 
 // catch 404 and forward to error handler
