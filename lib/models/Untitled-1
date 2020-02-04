@@ -1,0 +1,3 @@
+User accepts band:
+  post to bands/:id/membership_requests:
+  
