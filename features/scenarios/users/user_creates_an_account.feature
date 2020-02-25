@@ -3,7 +3,6 @@ Feature: User creates an account
   As a User
   I would like to be able to create an account
 
-  @wip
   Scenario: User sends an account creation request
     When I send a request to create a new user with the following information:
       | email         | username | password |
