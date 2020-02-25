@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha --recursive --exit",
-    "feature": "cucumber-js",
+    "feature": "cucumber-js --tags 'not @wip'",
     "coverage": "nyc npm run test"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "sinon": "^7.5.0"
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2"
   }
 }
