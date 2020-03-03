@@ -10,8 +10,14 @@ When('I send a request to create the following user:',  function (userDetails) {
 }); 
 
 When('I send a request to log in with {string} and {string}', function (email, password) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  body = {
+    email: email,
+    password: password
+  }
+  this.request = request(this.app)
+  .post('/users/login')
+  .set('Content-Type', 'application/json')
+  .send(body)
 });
 
 // Helpers

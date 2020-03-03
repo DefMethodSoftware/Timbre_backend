@@ -17,10 +17,10 @@ passport.use(new LocalStrategy({
   User.findOne({email: email}).then(async (user)=>{
     const valid = await user.validPassword(password)
     if(!user || !valid){
-      return done(null, false, {errors: {'email or password': 'is invalid'}})
+      return done(null, false, {errors: "email or password is invalid"})
     }
     return done(null, user)
-  }).catch(done)
+  }).catch(err => {done(null, false, err)})
 }))
 
 passport.use(new JWTStrategy({
