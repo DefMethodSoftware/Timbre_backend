@@ -9,6 +9,11 @@ When('I send a request to create the following user:',  function (userDetails) {
   .send(userDetails)
 }); 
 
+When('I send a request to log in with {string} and {string}', function (email, password) {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
+});
+
 // Helpers
 const createObjArrayFromTable = (table) => {
   table = table.raw()

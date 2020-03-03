@@ -7,9 +7,10 @@ Feature: User creates an account
     When I send a request to create the following user:
       | email         | username | password |
       | user@user.com | testuser | password |
-    Then the platform should respond that the user was created successfully
+    Then the platform should respond that the creation was successful
     And the response should contain an authentication token
     And there should be a user in the system with the email "user@user.com" and username "testuser"
+    And the response should contain a user ID
 
 
   Scenario: User tries to create a user with an email that is already taken
