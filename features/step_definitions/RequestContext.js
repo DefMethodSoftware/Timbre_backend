@@ -1,10 +1,13 @@
 const { Given, When, Then } = require('cucumber');
-const request = require('supertest');
+const request = require('supertest')
 
-When('I send a request to create a new user with the following information:',  function (userDetails) {
+When('I send a request to create the following user:',  function (userDetails) {
   userDetails = createObjArrayFromTable(userDetails)
-  return 'pending';
-});
+  this.request = request(this.app)
+  .post('/users')
+  .set('Content-Type', 'application/json')
+  .send(userDetails)
+}); 
 
 // Helpers
 const createObjArrayFromTable = (table) => {
@@ -15,5 +18,5 @@ const createObjArrayFromTable = (table) => {
       return obj
     }, {}))
     return result
-  }, [])
+  }, [])[0]
 }

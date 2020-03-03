@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha --recursive --exit",
-    "feature": "cucumber-js --tags 'not @wip'",
+    "feature": "NODE_ENV=test cucumber-js --tags 'not @wip'",
     "coverage": "nyc npm run test"
   },
   "dependencies": {
