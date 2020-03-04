@@ -68,3 +68,12 @@ Then('no email, username or authentication token should have been sent', functio
   expect(this.response.body).to.not.have.property('token')
 });
 
+Then('the platform should respond that I am not allowed to do this', function () {
+  //Write  code here that turns the phrase above into concrete actions
+  return 'pending';
+});
+
+Then('the platform should respond showing the infromation was updated', function () {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
+});

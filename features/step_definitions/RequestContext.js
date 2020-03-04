@@ -20,6 +20,11 @@ When('I send a request to log in with {string} and {string}', function (email, p
   .send(body)
 });
 
+When('I send a request to set the following profile information:', function (dataTable) {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
+});
+
 // Helpers
 const createObjArrayFromTable = (table) => {
   table = table.raw()
