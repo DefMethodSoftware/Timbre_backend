@@ -37,3 +37,12 @@ Then('my location coordinates should be {string}', function (string) {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
+
+Given('I have not set my profile information', function () {
+  const properties = ['firstName', 'lastName', 'bio', 'location']
+  properties.forEach((prop)=>{
+    expect(this.user[prop]).to.eq(undefined)
+  })
+
+  expect(this.user.instruments.length).to.eq(0)
+});

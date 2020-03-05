@@ -7,10 +7,11 @@ const {
 const mongoose = require('mongoose')
 const app = require('../../app')
 
-// BeforeAll(function(callback) {
+// BeforeAll( async function() {
+//   await mongoose.connection.dropDatabase()
 // })
 
-Before(async function () {  
+Before(async function () {
   await mongoose.connection.dropDatabase()
   this.app = app
 })

@@ -21,8 +21,10 @@ When('I send a request to log in with {string} and {string}', function (email, p
 });
 
 When('I send a request to set the following profile information:', function (dataTable) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  let body = createObjArrayFromTable(dataTable)
+  body.instruments = instrumentArrayFromTableColumn(body.instruments)
+  body.location = locationObjFromTableColumn(body.location)
+  console.log(body.location)
 });
 
 // Helpers
@@ -36,3 +38,25 @@ const createObjArrayFromTable = (table) => {
     return result
   }, [])[0]
 }
+
+const instrumentArrayFromTableColumn = (col) => {
+  return col.split(',').reduce((result, instrument) => {
+    instrument = instrument.split(': ')
+    result[instrument[0]] = instrument[1]
+    return result
+  }, {})
+}
+
+const locationObjFromTableColumn = (col) => {
+  let location = {}
+  let params = col.split(', ').map((param)=>{
+    return param.split(': ')
+  })
+  location.friendlyLocation = params[0][1]
+  location.coords = [params[1][1], params[2][1]]
+  location.coords = location.coords.map(x=>Number.parseFloat(x))
+  return location
+  
+}
+
+

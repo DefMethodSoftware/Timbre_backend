@@ -13,17 +13,12 @@ Then('there should be a user in the system with the email {string} and username 
   expect(this.user.username).to.eq(username)
 });
 
-Given('I am logged in as a user', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Given('I am logged in as a user', async function () {
+  this.user = new User({email: "testuser@user.com", username: 'testuser', password: 'password'})
+  await this.user.save()
 });
 
 Given('I am not logged in', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
-});
-
-Given('I have not set my profile information', function () {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
