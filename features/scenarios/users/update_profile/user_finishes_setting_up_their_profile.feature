@@ -57,7 +57,7 @@ Feature: User completes the profile setup form
   
   Scenario: Unauthenticated user tries to submit profile information
     Given I am not logged in
-    When I send a request to set the following profile information:
+    When I send an unauthenticated request to set the following profile information:
     | firstName | lastName | bio              | instruments         | location                                          |
     | Test      | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
     Then the platform should respond that I am not allowed to do this

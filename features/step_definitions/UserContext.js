@@ -18,8 +18,8 @@ Given('I am logged in as a user', async function () {
   await this.user.save()
 });
 
-Given('I am not logged in', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Given('I am not logged in', async function () {
+  this.anotherUser = new User({email: "testuser@user.com", username: 'testuser', password: 'password'})
+  await this.anotherUser.save()
 });
 

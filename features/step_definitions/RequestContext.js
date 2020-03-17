@@ -1,5 +1,10 @@
 const { Given, When, Then } = require('cucumber');
 const request = require('supertest')
+const {
+  createObjArrayFromTable,
+  instrumentArrayFromTableColumn,
+  locationObjFromTableColumn
+} = require('./helpers/TableConverter.js')
 
 When('I send a request to create the following user:',  function (userDetails) {
   userDetails = createObjArrayFromTable(userDetails)
@@ -10,7 +15,7 @@ When('I send a request to create the following user:',  function (userDetails) {
 }); 
 
 When('I send a request to log in with {string} and {string}', function (email, password) {
-  body = {
+  let body = {
     email: email,
     password: password
   }
@@ -24,39 +29,21 @@ When('I send a request to set the following profile information:', function (dat
   let body = createObjArrayFromTable(dataTable)
   body.instruments = instrumentArrayFromTableColumn(body.instruments)
   body.location = locationObjFromTableColumn(body.location)
-  console.log(body.location)
+
+  this.request = request(this.app)
+    .patch(`/users/${this.user.id}`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send(body)
 });
 
-// Helpers
-const createObjArrayFromTable = (table) => {
-  table = table.raw()
-  return table.slice(1).reduce((result, val )=>{
-    result.push(table[0].reduce((obj, key, index)=>{
-      obj[key] = val[index]
-      return obj
-    }, {}))
-    return result
-  }, [])[0]
-}
+When('I send an unauthenticated request to set the following profile information:', function (dataTable) {
+  let body = createObjArrayFromTable(dataTable)
+  body.instruments = instrumentArrayFromTableColumn(body.instruments)
+  body.location = locationObjFromTableColumn(body.location)
 
-const instrumentArrayFromTableColumn = (col) => {
-  return col.split(',').reduce((result, instrument) => {
-    instrument = instrument.split(': ')
-    result[instrument[0]] = instrument[1]
-    return result
-  }, {})
-}
-
-const locationObjFromTableColumn = (col) => {
-  let location = {}
-  let params = col.split(', ').map((param)=>{
-    return param.split(': ')
-  })
-  location.friendlyLocation = params[0][1]
-  location.coords = [params[1][1], params[2][1]]
-  location.coords = location.coords.map(x=>Number.parseFloat(x))
-  return location
-  
-}
-
-
+  this.request = request(this.app)
+    .patch(`/users/${this.anotherUser.id}`)
+    .set('Content-Type', 'application/json')
+    .send(body)
+});

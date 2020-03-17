@@ -1,41 +1,55 @@
 const { Given, When, Then } = require('cucumber');
 const expect = require('chai').expect
 const User = require('../../lib/models/User')
+const {
+  createObjArrayFromTable,
+  instrumentArrayFromTableColumn,
+  locationObjFromTableColumn
+} = require('./helpers/TableConverter.js')
 
-Then('my friendly location should be {string}', function (string) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('my friendly location should be {string}', async function (friendlyName) {
+  const user = await User.findById(this.user.id)
+  expect(user.location.friendlyLocation).to.eq(friendlyName)
 });
 
 Then('my profile information should not be set', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  expect(this.user.firstName).to.eq(undefined)
+  expect(this.user.lastName).to.eq(undefined)
+  expect(this.user.bio).to.eq(undefined)
+  expect(this.user.instruments.length).to.eq(0)
+  expect(this.user.location).to.eq(undefined)
 });
 
-Then('I should play {string} at level {int}', function (string, int) {
-  // Then('I should play {string} at level {float}', function (string, float) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('I should play {string} at level {int}', async function (instrument, level) {
+  const user = await User.findById(this.user.id)
+  user.instruments.forEach((instObj) => {
+    if(instObj.instrument === instrument) {
+      expect(instObj.rating).to.eq(level)
+    }
+  })
 });
 
-Then('I should have the first name {string}', function (string) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('I should have the first name {string}', async function (firstName) {
+  const user = await User.findById(this.user.id)
+  expect(user.firstName).to.eq(firstName)
 });
 
-Then('I should have the last name {string}', function (string) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('I should have the last name {string}', async function (lastName) {
+  const user = await User.findById(this.user.id)
+  expect(user.lastName).to.eq(lastName)
 });
 
-Then('I should have the bio {string}', function (string) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('I should have the bio {string}', async function (bio) {
+  const user = await User.findById(this.user.id)
+  expect(user.bio).to.eq(bio)
 });
 
-Then('my location coordinates should be {string}', function (string) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Then('my location coordinates should be {string}', async function (coords) {
+  coords = coords.split(', ')
+  const user = await User.findById(this.user.id)
+  coords.forEach((coord, i)=>{
+    expect(user.location.coords[i]).to.eq(parseFloat(coord))
+  })
 });
 
 Given('I have not set my profile information', function () {
@@ -45,4 +59,13 @@ Given('I have not set my profile information', function () {
   })
 
   expect(this.user.instruments.length).to.eq(0)
+});
+
+Given('I have previously set my profile information to:', function (dataTable) {
+  let profile = createObjArrayFromTable(dataTable)
+  this.user.instruments = instrumentArrayFromTableColumn(profile.instruments)
+  this.user.location = locationObjFromTableColumn(profile.location)
+  this.user.firstName = profile.firstName
+  this.user.lastName = profile.lastName
+  this.user.bio = profile.bio
 });
