@@ -1,4 +1,3 @@
-// Helpers
 const createObjArrayFromTable = (table) => {
   table = table.raw()
   return table.slice(1).reduce((result, val )=>{
@@ -29,8 +28,18 @@ const locationObjFromTableColumn = (col) => {
   return location
 }
 
+const missingInstrumentsFromTableColumn = (col) => {
+  col = col.split(", ")
+  return col.reduce((result, string)=>{
+    let [inst, count] = string.split(": ")
+    result[inst.toLowerCase()] = parseInt(count)
+    return result
+  }, {})
+}
+
 module.exports = {
   createObjArrayFromTable: createObjArrayFromTable,
   instrumentArrayFromTableColumn: instrumentArrayFromTableColumn,
-  locationObjFromTableColumn: locationObjFromTableColumn
+  locationObjFromTableColumn: locationObjFromTableColumn,
+  missingInstrumentsFromTableColumn: missingInstrumentsFromTableColumn
 }

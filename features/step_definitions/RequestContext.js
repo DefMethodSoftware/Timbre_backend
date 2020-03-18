@@ -3,8 +3,11 @@ const request = require('supertest')
 const {
   createObjArrayFromTable,
   instrumentArrayFromTableColumn,
-  locationObjFromTableColumn
+  locationObjFromTableColumn,
+  missingInstrumentsFromTableColumn
 } = require('./helpers/TableConverter.js')
+const Band = require('../../lib/models/Band.js')
+
 
 When('I send a request to create the following user:',  function (userDetails) {
   userDetails = createObjArrayFromTable(userDetails)
@@ -44,6 +47,27 @@ When('I send an unauthenticated request to set the following profile information
 
   this.request = request(this.app)
     .patch(`/users/${this.anotherUser.id}`)
+    .set('Content-Type', 'application/json')
+    .send(body)
+});
+
+When('I send a request to create the following band:', function (dataTable) {
+  let body = createObjArrayFromTable(dataTable)
+  body.missingInstruments = missingInstrumentsFromTableColumn(body.missingInstruments)
+
+  this.request = request(this.app)
+    .post('/bands')
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send(body)
+});
+
+When('I send an unauthenticated request to create the following band:', function (dataTable) {
+  let body = createObjArrayFromTable(dataTable)
+  body.missingInstruments = missingInstrumentsFromTableColumn(body.missingInstruments)
+
+  this.request = request(this.app)
+    .post('/bands')
     .set('Content-Type', 'application/json')
     .send(body)
 });

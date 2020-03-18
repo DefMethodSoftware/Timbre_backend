@@ -1,8 +1,8 @@
-const { 
+const {
   Before,
   After,
   BeforeAll,
-  AfterAll 
+  AfterAll
 } = require('cucumber')
 const mongoose = require('mongoose')
 const app = require('../../app')
@@ -20,4 +20,5 @@ After(function() {
 })
 
 AfterAll(function() {
+  mongoose.connection.close()
 })

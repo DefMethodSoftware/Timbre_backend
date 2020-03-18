@@ -61,11 +61,12 @@ Given('I have not set my profile information', function () {
   expect(this.user.instruments.length).to.eq(0)
 });
 
-Given('I have previously set my profile information to:', function (dataTable) {
+Given('I have previously set my profile information to:', async function (dataTable) {
   let profile = createObjArrayFromTable(dataTable)
   this.user.instruments = instrumentArrayFromTableColumn(profile.instruments)
   this.user.location = locationObjFromTableColumn(profile.location)
   this.user.firstName = profile.firstName
   this.user.lastName = profile.lastName
   this.user.bio = profile.bio
+  await this.user.save()
 });

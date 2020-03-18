@@ -3,7 +3,7 @@ Feature: User completes the profile setup form
   As a user
   I would like to be able to setup my profile
 
-  
+
   Scenario: User submits form with profile information
     Given I am logged in as a user
     And I have not set my profile information
@@ -19,7 +19,7 @@ Feature: User completes the profile setup form
     And my friendly location should be "London"
     And my location coordinates should be "55.509865, -0.118092"
 
-  
+
   Scenario: User updates their profile information
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -36,16 +36,16 @@ Feature: User completes the profile setup form
     And I should play "drums" at level 2
     And my friendly location should be "London"
 
-  
+
   Scenario: User sends incorrect location information
     Given I am logged in as a user
     When I send a request to set the following profile information:
       | firstName | lastName | bio              | instruments         | location                              |
       | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 300, lat: 300 |
     Then the platform should respond that the request was bad
-    And my profile information should not be set  
+    And my profile information should not be set
 
-  
+
   Scenario: User sends incorrect Instrument information
     Given I am logged in as a user
     When I send a request to set the following profile information:
@@ -54,11 +54,10 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
-  
+
   Scenario: Unauthenticated user tries to submit profile information
     Given I am not logged in
     When I send an unauthenticated request to set the following profile information:
     | firstName | lastName | bio              | instruments         | location                                          |
     | Test      | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
     Then the platform should respond that I am not allowed to do this
-   
