@@ -70,3 +70,16 @@ Given('I have previously set my profile information to:', async function (dataTa
   this.user.bio = profile.bio
   await this.user.save()
 });
+
+Given('the user {string} has set their profile information to:', async function (email, dataTable) {
+  let profile = createObjArrayFromTable(dataTable)
+  let user = await User.find({ email: email })
+  user = user[0]
+
+  user.instruments = instrumentArrayFromTableColumn(profile.instruments)
+  user.location = locationObjFromTableColumn(profile.location)
+  user.firstName = profile.firstName
+  user.lastName = profile.lastName
+  user.bio = profile.bio
+  await user.save()
+});

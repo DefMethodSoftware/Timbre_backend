@@ -71,3 +71,18 @@ When('I send an unauthenticated request to create the following band:', function
     .set('Content-Type', 'application/json')
     .send(body)
 });
+
+When('I request to see bands in my area', function () {
+  this.request = request(this.app)
+    .get('/bands')
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send()
+});
+
+When('I send an unauthenticated request to see a list of bands', function () {
+  this.request = request(this.app)
+    .get('/bands')
+    .set('Content-Type', 'application/json')
+    .send()
+});

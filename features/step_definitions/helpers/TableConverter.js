@@ -12,7 +12,8 @@ const createObjArrayFromTable = (table) => {
 const instrumentArrayFromTableColumn = (col) => {
   return col.split(',').reduce((result, instrument) => {
     instrument = instrument.split(': ')
-    result[instrument[0]] = instrument[1]
+    result.instrument = instrument[0]
+    result.rating = parseInt(instrument[1])
     return result
   }, {})
 }

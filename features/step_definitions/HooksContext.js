@@ -6,18 +6,22 @@ const {
 } = require('cucumber')
 const mongoose = require('mongoose')
 const app = require('../../app')
+const Band = require('../../lib/models/Band');
+const User = require('../../lib/models/User')
+const MembershipRequest = require('../../lib/models/MembershipRequest')
 
 // BeforeAll( async function() {
-//   await mongoose.connection.dropDatabase()
 // })
 
 Before(async function () {
-  await mongoose.connection.dropDatabase()
+  await User.collection.remove()
+  await Band.collection.remove()
+  await MembershipRequest.collection.remove()
   this.app = app
 })
 
-After(function() {
-})
+// After(function() {
+// })
 
 AfterAll(function() {
   mongoose.connection.close()
