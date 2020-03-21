@@ -55,6 +55,22 @@ Feature: User completes the profile setup form
     And my profile information should not be set
 
 
+
+  Scenario: User tries to update the profile information of another user
+    Given there is a user in the system with the email "user@london.com" and username "EnglishBandOwner"
+    And I am logged in as a user
+    When I send a request to set the following profile information for "user@london.com":
+      | firstName | lastName | bio              | instruments         | location                              |
+      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 300, lat: 300 |
+    Then the platform should respond that I am not allowed to do this
+
+  Scenario: User tries to update a non-existant user
+    Given I am logged in as a user
+    When I send a request to set the following profile information for a non-existant user:
+      | firstName | lastName | bio              | instruments         | location                              |
+      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 300, lat: 300 |
+    Then the platform should respond that the request was bad
+
   Scenario: Unauthenticated user tries to submit profile information
     Given I am not logged in
     When I send an unauthenticated request to set the following profile information:
