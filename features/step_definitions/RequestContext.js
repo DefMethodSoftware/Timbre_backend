@@ -8,6 +8,7 @@ const {
 } = require('./helpers/TableConverter.js')
 const Band = require('../../lib/models/Band.js')
 const User = require('../../lib/models/User.js')
+const MembershipRequest = require('../../lib/models/MembershipRequest.js')
 
 
 When('I send a request to create the following user:',  function (userDetails) {
@@ -16,7 +17,7 @@ When('I send a request to create the following user:',  function (userDetails) {
   .post('/users')
   .set('Content-Type', 'application/json')
   .send(userDetails)
-}); 
+});
 
 When('I send a request to log in with {string} and {string}', function (email, password) {
   let body = {
@@ -136,4 +137,70 @@ When('I send a request to join a non-existant Band', function () {
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send()
+});
+
+When('I request to see a list of membership requests', function () {
+  this.request = request(this.app)
+    .get('/membership_requests')
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send()
+});
+
+When('I send an unauthenticated request to see a list of membership requests', function () {
+  this.request = request(this.app)
+    .get('/membership_requests')
+    .set('Content-Type', 'application/json')
+    .send()
+});
+
+When('I send a request to accept {string}\'s request to join the band {string}', async function (email, bandName) {
+  const user = await User.findOne({ email: email })
+  const band = await Band.findOne({ bandName: bandName })
+  const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
+
+  this.request = request(this.app)
+    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send({
+      accepted: true
+    })
+});
+
+When('I send a request to decline {string}\'s request to join the band {string}', async function (email, bandName) {
+  const user = await User.findOne({ email: email })
+  const band = await Band.findOne({ bandName: bandName })
+  const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
+
+  this.request = request(this.app)
+    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send({
+      declined: true
+    })
+});
+
+When('I send a request to accept some rubbish membership request', function () {
+  this.request = request(this.app)
+    .patch(`/bands/12345678/membership_requests/12345678`)
+    .set('Content-Type', 'application/json')
+    .set('Authorization', this.user.generateJWT())
+    .send({
+      accepted: true
+    })
+});
+
+When('I send an unauthenticated request to accept {string}\'s requests to join the band {string}', async function (email, bandName) {
+  const user = await User.findOne({ email: email })
+  const band = await Band.findOne({ bandName: bandName })
+  const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
+
+  this.request = request(this.app)
+    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .set('Content-Type', 'application/json')
+    .send({
+      approved: true
+    })
 });

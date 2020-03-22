@@ -30,6 +30,7 @@ Then('the platform should respond that the request was bad',  function (done) {
   let self = this
   this.request.expect(400)
   .end((err, res)=>{
+
     if (err) throw err
     self.response = res
     done()

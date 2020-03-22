@@ -19,7 +19,8 @@ Given('I am logged in as a user', async function () {
 });
 
 Given('I am not logged in', async function () {
-  this.anotherUser = new User({email: "testuser@user.com", username: 'testuser', password: 'password'})
+  this.user = null
+  this.anotherUser = new User({email: "someuser@someuser.com", username: 'sometestuser', password: 'password'})
   await this.anotherUser.save()
 });
 

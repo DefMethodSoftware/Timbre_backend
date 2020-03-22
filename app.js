@@ -45,7 +45,11 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   if (err.name === 'ValidationError') {
     err.status = 400
-  } 
+  }
+
+  if (err.name === 'NotFoundError') {
+    err.status = 400
+  }
 
   // return the error message
   res.status(err.status || 500);

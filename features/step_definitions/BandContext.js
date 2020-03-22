@@ -36,6 +36,10 @@ Given('the user {string} has created the following band:', async function (email
   await user.save()
 });
 
+Given('there are no bands associated with my account', function () {
+  expect(this.user.bands.length).to.eq(0)
+});
+
 Then('there should be a band associated with my account with the following information:', async function (dataTable) {
   let expectedBand = createObjArrayFromTable(dataTable)
   expectedBand.missingInstruments = missingInstrumentsFromTableColumn(expectedBand.missingInstruments)
