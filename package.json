@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha --recursive --exit",
+    "feature": "NODE_ENV=test cucumber-js --tags 'not @wip'",
     "coverage": "nyc npm run test"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-jwt": "^5.3.1",
+    "geopoint": "^1.0.1",
     "http-errors": "~1.6.3",
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
@@ -29,9 +31,11 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "cucumber": "^6.0.5",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "sinon": "^7.5.0"
+    "sinon": "^7.5.0",
+    "supertest": "^4.0.2"
   }
 }

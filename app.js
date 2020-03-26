@@ -28,10 +28,12 @@ app.use(membershipRequestsRouter);
 
 require('./db/db')
 
-require('./lib/models/User')
-require('./lib/models/Band')
-require('./lib/models/MembershipRequest')
+const User = require('./lib/models/User')
+const Band = require('./lib/models/Band')
+const MembershipRequest = require('./lib/models/MembershipRequest')
 require('./config/passport');
+
+Band.ensureIndexes()
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,7 +45,11 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   if (err.name === 'ValidationError') {
     err.status = 400
-  } 
+  }
+
+  if (err.name === 'NotFoundError') {
+    err.status = 400
+  }
 
   // return the error message
   res.status(err.status || 500);
