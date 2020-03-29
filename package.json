@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --recursive --exit",
+    "test": "./node_modules/.bin/jest --watch",
     "feature": "NODE_ENV=test cucumber-js --tags 'not @wip'",
-    "coverage": "nyc npm run test",
     "update:packages": "node wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
   "dependencies": {
@@ -30,6 +29,7 @@
   "devDependencies": {
     "chai": "^4.2",
     "cucumber": "^6.0",
+    "jest": "^25.2.3",
     "nyc": "^15.0",
     "supertest": "^4.0"
   }
