@@ -25,7 +25,7 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
   jwtFromRequest: fromHeader,
-  secretOrKey: secret,  
+  secretOrKey: secret,
 }, (jwt_payload, done) => {
   User.findOne({email: jwt_payload.email}, function(err, user) {
     if (err) {
