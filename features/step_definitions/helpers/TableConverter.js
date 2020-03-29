@@ -10,6 +10,9 @@ const createObjArrayFromTable = (table) => {
 }
 
 const instrumentArrayFromTableColumn = (col) => {
+  if (col === 'none') {
+    return 
+  }
   return col.split(',').reduce((result, instrument) => {
     instrument = instrument.split(': ')
     result.instrument = instrument[0]
@@ -19,6 +22,9 @@ const instrumentArrayFromTableColumn = (col) => {
 }
 
 const locationObjFromTableColumn = (col) => {
+  if (col === 'none') {
+    return 
+  }
   let location = {}
   let params = col.split(', ').map((param)=>{
     return param.split(': ')
@@ -31,6 +37,9 @@ const locationObjFromTableColumn = (col) => {
 
 const missingInstrumentsFromTableColumn = (col) => {
   col = col.split(", ")
+  if (col[0] === 'none') {
+    return {}
+  }
   return col.reduce((result, string)=>{
     let [inst, count] = string.split(": ")
     result[inst.toLowerCase()] = parseInt(count)

@@ -29,6 +29,20 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  Scenario: User tries to create a with an invalid email
+    When I send a request to create the following user:
+      | email         | username    | password |
+      | user1user.com | testuser    | password |
+    Then the platform should respond that the request was bad
+    And no email, username or authentication token should have been sent
+
+  Scenario: User tries to create a with an invalid email
+    When I send a request to create the following user:
+      | email         | username    | password |
+      | user@usercom | testuser    | password |
+    Then the platform should respond that the request was bad
+    And no email, username or authentication token should have been sent
+
   Scenario: User tries to create a user without an email
     When I send a request to create the following user:
       | username    | password |
