@@ -30,6 +30,7 @@
     "chai": "^4.2",
     "cucumber": "^6.0",
     "jest": "^25.2.3",
+    "jest-mock-props": "^1.7.2",
     "nyc": "^15.0",
     "supertest": "^4.0"
   }
