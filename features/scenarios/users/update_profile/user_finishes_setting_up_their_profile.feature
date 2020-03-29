@@ -4,7 +4,7 @@ Feature: User completes the profile setup form
   I would like to be able to setup my profile
 
 
-  Scenario: User submits form with profile information
+  Scenario: User sets their profile information
     Given I am logged in as a user
     And I have not set my profile information
     When I send a request to set the following profile information:
@@ -36,6 +36,50 @@ Feature: User completes the profile setup form
     And I should play "drums" at level 2
     And my friendly location should be "London"
 
+  Scenario: User sets their profile information without a first name
+    Given I am logged in as a user
+    And I have not set my profile information
+    When I send a request to set the following profile information:
+      | firstName | lastName | bio              | instruments         | location                                          |
+      |           | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    Then the platform should respond that the request was bad
+    And my profile information should not be set
+
+  Scenario: User sets their profile information without a last name
+    Given I am logged in as a user
+    And I have not set my profile information
+    When I send a request to set the following profile information:
+      | firstName | lastName | bio              | instruments         | location                                          |
+      | Test      |          | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    Then the platform should respond that the request was bad
+    And my profile information should not be set
+
+  Scenario: User sets their profile information without a bio
+    Given I am logged in as a user
+    And I have not set my profile information
+    When I send a request to set the following profile information:
+      | firstName | lastName | bio | instruments         | location                                          |
+      | Test      | User     |     | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    Then the platform should respond that the request was bad
+    And my profile information should not be set
+
+  Scenario: User sets their profile information without any instruments
+    Given I am logged in as a user
+    And I have not set my profile information
+    When I send a request to set the following profile information:
+      | firstName | lastName | bio               | instruments | location                                          |
+      | Test      | User     | I am a test user  | none        | friendly: London, long: 55.509865, lat: -0.118092 |
+    Then the platform should respond that the request was bad
+    And my profile information should not be set
+
+  Scenario: User sets their profile information without a location
+    Given I am logged in as a user
+    And I have not set my profile information
+    When I send a request to set the following profile information:
+      | firstName | lastName | bio               | instruments         | location |
+      | Test      | User     | I am a test user  | guitar: 5, drums: 3 | none     |
+    Then the platform should respond that the request was bad
+    And my profile information should not be set
 
   Scenario: User sends incorrect location information
     Given I am logged in as a user
@@ -45,7 +89,6 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
-
   Scenario: User sends incorrect Instrument information
     Given I am logged in as a user
     When I send a request to set the following profile information:
@@ -53,8 +96,6 @@ Feature: User completes the profile setup form
       | Test      | User     | I am a test user | bed: yes    | friendly: London, long: 300, lat: 300 |
     Then the platform should respond that the request was bad
     And my profile information should not be set
-
-
 
   Scenario: User tries to update the profile information of another user
     Given there is a user in the system with the email "user@london.com" and username "EnglishBandOwner"

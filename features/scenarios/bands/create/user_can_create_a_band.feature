@@ -46,3 +46,36 @@ Feature: User can create a band
       | My Band  | Guitar: 2, Vocals 1 | We are a cool band |
     Then the platform should respond that I am not authorized
     And there should be no bands in the system
+
+  Scenario: User creates a band without a Band Name
+    Given I am logged in as a user
+    And I have previously set my profile information to:
+      | firstName | lastName | bio              | instruments         | location                                          |
+      | Test      | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    When I send a request to create the following band:
+      | bandName | missingInstruments   | bio                |
+      |          | Guitar: 2, Vocals: 1 | We are a cool band |
+    Then the platform should respond that the request was bad
+    And there should be no bands associated with my account
+
+  Scenario: User creates a band without any missing instruments
+    Given I am logged in as a user
+    And I have previously set my profile information to:
+      | firstName | lastName | bio              | instruments         | location                                          |
+      | Test      | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    When I send a request to create the following band:
+      | bandName | missingInstruments   | bio                |
+      | My Band  | none                 | We are a cool band |
+    Then the platform should respond that the request was bad
+    And there should be no bands associated with my account
+
+  Scenario: User creates a band without a bio
+    Given I am logged in as a user
+    And I have previously set my profile information to:
+      | firstName | lastName | bio              | instruments         | location                                          |
+      | Test      | User     | I am a test user | guitar: 5, drums: 3 | friendly: London, long: 55.509865, lat: -0.118092 |
+    When I send a request to create the following band:
+      | bandName | missingInstruments   | bio                |
+      | My Band  | Guitar: 2, Vocals: 1 |                    |
+    Then the platform should respond that the request was bad
+    And there should be no bands associated with my account
