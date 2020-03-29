@@ -14,9 +14,9 @@ const MembershipRequest = require('../../lib/models/MembershipRequest')
 // })
 
 Before(async function () {
-  await User.collection.remove()
-  await Band.collection.remove()
-  await MembershipRequest.collection.remove()
+  await User.collection.deleteMany()
+  await Band.collection.deleteMany()
+  await MembershipRequest.collection.deleteMany()
   this.app = app
 })
 

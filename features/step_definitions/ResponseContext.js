@@ -79,7 +79,17 @@ Then('the platform should respond that I am not allowed to do this', function (d
   })
 });
 
-Then('the platform should respond showing the infromation was updated', function (done) {
+Then('the platform should respond that I am not authorized', function (done) {
+  let self = this
+  this.request.expect(403)
+  .end((err, res)=>{
+    if (err) throw err
+    self.response = res
+    done()
+  })
+});
+
+Then('the platform should respond showing the information was updated', function (done) {
   let self = this
   this.request.expect(204)
     .end((err, res)=>{
