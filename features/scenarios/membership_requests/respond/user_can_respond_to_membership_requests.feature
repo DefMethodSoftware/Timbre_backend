@@ -74,4 +74,4 @@ Feature: User can respond to their bands membership requests
     Given I am not logged in
     And the user "user@london.com" has requested to join the band "Spitalfields Band"
     When I send an unauthenticated request to accept "user@london.com"'s requests to join the band "Spitalfields Band"
-    Then the platform should respond that I am not allowed to do this
+    Then the platform should respond that I am not authorized

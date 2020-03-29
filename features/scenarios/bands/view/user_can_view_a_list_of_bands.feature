@@ -46,4 +46,4 @@ Feature: User can see a list of bands near them
   Scenario: Unauthenticated user does not see a list of bands
     Given I am not logged in
     When I send an unauthenticated request to see a list of bands
-    Then the platform should respond that I am not allowed to do this
+    Then the platform should respond that I am not authorized

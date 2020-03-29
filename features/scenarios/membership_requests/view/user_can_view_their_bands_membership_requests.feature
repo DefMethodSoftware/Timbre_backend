@@ -102,5 +102,5 @@ Feature: User can see a list of membership requests for their bands
   Scenario: Unauthenticated user can't see a list of membership requests
     Given I am not logged in
     When I send an unauthenticated request to see a list of membership requests
-    Then the platform should respond that I am not allowed to do this
+    Then the platform should respond that I am not authorized
 

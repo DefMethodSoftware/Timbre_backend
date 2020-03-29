@@ -44,5 +44,5 @@ Feature: User can create a band
     When I send an unauthenticated request to create the following band:
       | bandName | missingInstruments  | bio                |
       | My Band  | Guitar: 2, Vocals 1 | We are a cool band |
-    Then the platform should respond that I am not allowed to do this
+    Then the platform should respond that I am not authorized
     And there should be no bands in the system

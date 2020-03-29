@@ -58,4 +58,4 @@ Feature: User can request to join a band
   Scenario: Unauthenticated user tries to join a band
     Given I am not logged in
     When I send an unauthenticated request to join "London Band"
-    Then the platform should respond that I am not allowed to do this
+    Then the platform should respond that I am not authorized
