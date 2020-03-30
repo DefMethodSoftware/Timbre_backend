@@ -63,11 +63,9 @@ Given('I have not set my profile information', function () {
 
 Given('I have previously set my profile information to:', async function (dataTable) {
   let profile = createObjArrayFromTable(dataTable)
-  this.user.instruments = instrumentArrayFromTableColumn(profile.instruments)
-  this.user.location = locationObjFromTableColumn(profile.location)
-  this.user.firstName = profile.firstName
-  this.user.lastName = profile.lastName
-  this.user.bio = profile.bio
+  profile.location = locationObjFromTableColumn(profile.location)
+  profile.instruments = instrumentArrayFromTableColumn(profile.instruments)
+  this.user.setProfile(profile)
   await this.user.save()
 });
 
