@@ -31,6 +31,7 @@ require('./db/db')
 const User = require('./lib/models/User')
 const Band = require('./lib/models/Band')
 const MembershipRequest = require('./lib/models/MembershipRequest')
+const Location = require('./lib/models/Location')
 require('./config/passport');
 
 // catch 404 and forward to error handler
