@@ -93,7 +93,7 @@ Feature: User completes the profile setup form
     Given I am logged in as a user
     When I send a request to set the following profile information:
       | firstName | lastName | bio              | instruments | location                              |
-      | Test      | User     | I am a test user | bed: yes    | friendly: London, long: 300, lat: 300 |
+      | Test      | User     | I am a test user | bed: yes    | friendly: London, long: 90, lat: 45 |
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
@@ -102,14 +102,14 @@ Feature: User completes the profile setup form
     And I am logged in as a user
     When I send a request to set the following profile information for "user@london.com":
       | firstName | lastName | bio              | instruments         | location                              |
-      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 300, lat: 300 |
+      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 90, lat: 45 |
     Then the platform should respond that I am not allowed to do this
 
   Scenario: User tries to update a non-existant user
     Given I am logged in as a user
     When I send a request to set the following profile information for a non-existant user:
       | firstName | lastName | bio              | instruments         | location                              |
-      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 300, lat: 300 |
+      | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 90, lat: 45 |
     Then the platform should respond that I am not allowed to do this
 
   Scenario: Unauthenticated user tries to submit profile information
