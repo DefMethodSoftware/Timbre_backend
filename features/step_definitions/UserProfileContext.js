@@ -4,12 +4,12 @@ const User = require('../../lib/models/User')
 const {
   createObjArrayFromTable,
   instrumentArrayFromTableColumn,
-  locationObjFromTableColumn
+  locationFromTableColumn
 } = require('./helpers/TableConverter.js')
 
 Then('my friendly location should be {string}', async function (friendlyName) {
-  const user = await User.findById(this.user.id)
-  expect(user.location.friendlyLocation).to.eq(friendlyName)
+  const user = await User.findById(this.user.id).populate('location')
+  expect(user.getLocation().getName()).to.eq(friendlyName)
 });
 
 Then('my profile information should not be set', function () {
@@ -46,10 +46,9 @@ Then('I should have the bio {string}', async function (bio) {
 
 Then('my location coordinates should be {string}', async function (coords) {
   coords = coords.split(', ')
-  const user = await User.findById(this.user.id)
-  coords.forEach((coord, i)=>{
-    expect(user.location.coords[i]).to.eq(parseFloat(coord))
-  })
+  const user = await User.findById(this.user.id).populate('location')
+  expect(user.getLocation().getLongitude()).to.eq(parseFloat(coords[0]))
+  expect(user.getLocation().getLatitude()).to.eq(parseFloat(coords[1]))
 });
 
 Given('I have not set my profile information', function () {
@@ -62,22 +61,20 @@ Given('I have not set my profile information', function () {
 });
 
 Given('I have previously set my profile information to:', async function (dataTable) {
-  let profile = createObjArrayFromTable(dataTable)
-  profile.location = locationObjFromTableColumn(profile.location)
+  const profile = createObjArrayFromTable(dataTable)
+
+  const location = await locationFromTableColumn(profile.location)
   profile.instruments = instrumentArrayFromTableColumn(profile.instruments)
-  this.user.setProfile(profile)
+  this.user.setProfile(profile, location)
   await this.user.save()
 });
 
 Given('the user {string} has set their profile information to:', async function (email, dataTable) {
-  let profile = createObjArrayFromTable(dataTable)
-  let user = await User.find({ email: email })
-  user = user[0]
+  const profile = createObjArrayFromTable(dataTable)
+  const user = await User.findOne({ email: email })
 
-  user.instruments = instrumentArrayFromTableColumn(profile.instruments)
-  user.location = locationObjFromTableColumn(profile.location)
-  user.firstName = profile.firstName
-  user.lastName = profile.lastName
-  user.bio = profile.bio
+  const location = await locationFromTableColumn(profile.location)
+  profile.instruments = instrumentArrayFromTableColumn(profile.instruments)
+  user.setProfile(profile, location)
   await user.save()
 });

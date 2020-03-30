@@ -4,7 +4,7 @@ const request = require('supertest')
 const {
   createObjArrayFromTable,
   instrumentArrayFromTableColumn,
-  locationObjFromTableColumn,
+  locationFromTableColumn,
   missingInstrumentsFromTableColumn
 } = require('./helpers/TableConverter.js')
 const MembershipRequest = require('../../lib/models/MembershipRequest.js')
