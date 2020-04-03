@@ -1,3 +1,5 @@
+const Location = require('../../../lib/models/Location')
+
 const createObjArrayFromTable = (table) => {
   table = table.raw()
   return table.slice(1).reduce((result, val )=>{
@@ -11,17 +13,38 @@ const createObjArrayFromTable = (table) => {
 
 const instrumentArrayFromTableColumn = (col) => {
   if (col === 'none') {
-    return 
+    return
   }
-  return col.split(',').reduce((result, instrument) => {
+  return col.split(', ').reduce((result, instrument) => {
     instrument = instrument.split(': ')
-    result.instrument = instrument[0]
-    result.rating = parseInt(instrument[1])
+    result.push({instrument: instrument[0], rating: parseInt(instrument[1]) })
     return result
-  }, {})
+  }, [])
 }
 
-const locationObjFromTableColumn = (col) => {
+
+const locationFromTableColumn = async (col) => {
+  if (col === 'none') {
+    return
+  }
+
+  let params = col.split(', ').map((param)=>{
+    return param.split(': ')
+  })
+  let location = new Location({
+    _geoJSON: {
+      type: 'Point',
+      coordinates: [params[1][1], params[2][1]].map(x=>Number.parseFloat(x))
+    },
+    _name: params[0][1]
+  })
+
+  await location.save()
+
+  return location
+}
+
+const locationParamsFromTableColumn = (col) => {
   if (col === 'none') {
     return 
   }
@@ -50,6 +73,7 @@ const missingInstrumentsFromTableColumn = (col) => {
 module.exports = {
   createObjArrayFromTable: createObjArrayFromTable,
   instrumentArrayFromTableColumn: instrumentArrayFromTableColumn,
-  locationObjFromTableColumn: locationObjFromTableColumn,
-  missingInstrumentsFromTableColumn: missingInstrumentsFromTableColumn
+  locationFromTableColumn: locationFromTableColumn,
+  missingInstrumentsFromTableColumn: missingInstrumentsFromTableColumn,
+  locationParamsFromTableColumn: locationParamsFromTableColumn
 }

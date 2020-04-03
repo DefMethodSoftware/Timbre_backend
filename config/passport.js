@@ -13,7 +13,7 @@ const fromHeader = (req) => {
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
-}, (email, password, done) => {
+}, async (email, password, done) => {
   User.findOne({email: email}).then(async (user)=>{
     const valid = await user.validPassword(password)
     if(!user || !valid){
@@ -27,15 +27,16 @@ passport.use(new JWTStrategy({
   jwtFromRequest: fromHeader,
   secretOrKey: secret,
 }, (jwt_payload, done) => {
-  User.findOne({email: jwt_payload.email}, function(err, user) {
+  User.findOne({email: jwt_payload.email}, async (err, user) => {
     if (err) {
       return done(err, false)
     }
     if (user) {
+      await User.populate(user, 'location')
       return done( null, user)
     }
     else {
       return done(null, false)
     }
-  })
+  }).catch(err => {done(null, false, err)})
 }))

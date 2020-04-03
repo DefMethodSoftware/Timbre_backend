@@ -4,38 +4,33 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --recursive --exit",
+    "test": "./node_modules/.bin/jest --watch",
     "feature": "NODE_ENV=test cucumber-js --tags 'not @wip'",
-    "coverage": "nyc npm run test"
+    "update:packages": "node wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "chai": "^4.2.0",
-    "cookie-parser": "~1.4.4",
-    "cors": "^2.8.5",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "express-jwt": "^5.3.1",
-    "geopoint": "^1.0.1",
-    "http-errors": "~1.6.3",
-    "jade": "^1.11.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.1",
-    "mongoose-unique-validator": "^2.0.3",
-    "morgan": "~1.9.1",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "uglify-js": "^3.7.2"
+    "bcryptjs": "^2.4",
+    "body-parser": "^1.19",
+    "cookie-parser": "^1.4",
+    "cors": "^2.8",
+    "debug": "^4.1",
+    "express": "^4.17",
+    "express-jwt": "^5.3",
+    "geopoint": "^1.0",
+    "http-errors": "^1.7",
+    "jsonwebtoken": "^8.5",
+    "mongoose": "^5.9",
+    "mongoose-unique-validator": "^2.0",
+    "morgan": "^1.10",
+    "passport": "^0.4",
+    "passport-jwt": "^4.0",
+    "passport-local": "^1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "cucumber": "^6.0.5",
-    "istanbul": "^0.4.5",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
-    "sinon": "^7.5.0",
-    "supertest": "^4.0.2"
+    "chai": "^4.2",
+    "cucumber": "^6.0",
+    "jest": "^25.2.3",
+    "nyc": "^15.0",
+    "supertest": "^4.0"
   }
 }

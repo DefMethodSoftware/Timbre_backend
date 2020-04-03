@@ -1,9 +1,0 @@
-{
-  "all": true,
-  "include": [
-    "models"
-  ],
-  "exclude": [
-    "app.js"
-  ]
-}

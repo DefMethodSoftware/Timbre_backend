@@ -3,7 +3,7 @@ const expect = require('chai').expect
 const {
   createObjArrayFromTable,
   instrumentArrayFromTableColumn,
-  locationObjFromTableColumn,
+  locationFromTableColumn,
   missingInstrumentsFromTableColumn
 } = require('./helpers/TableConverter.js')
 const Band = require("../../lib/models/Band.js")
@@ -12,9 +12,8 @@ const User = require("../../lib/models/User.js")
 Given('I have previously created the following band:', async function (dataTable) {
   let bandParams = createObjArrayFromTable(dataTable)
   bandParams.missingInstruments = missingInstrumentsFromTableColumn(bandParams.missingInstruments)
-  bandParams.location = {coordinates: this.user.location.coords}
-  bandParams.locationFriendly = this.user.location.friendlyLocation
-  bandParams.user = this.user.id
+  bandParams.location = this.user.getLocation()
+  bandParams.user = this.user
   const band = new Band(bandParams)
   await band.save()
   this.user.bands.push(band)
@@ -27,9 +26,8 @@ Given('the user {string} has created the following band:', async function (email
   let bandParams = createObjArrayFromTable(dataTable)
 
   bandParams.missingInstruments = missingInstrumentsFromTableColumn(bandParams.missingInstruments)
-  bandParams.location = {coordinates: user.location.coords}
-  bandParams.locationFriendly = user.location.friendlyLocation
-  bandParams.user = user.id
+  bandParams.location = user.getLocation()
+  bandParams.user = user
   const band = new Band(bandParams)
   await band.save()
   user.bands.push(band)
@@ -43,18 +41,16 @@ Given('there are no bands associated with my account', function () {
 Then('there should be a band associated with my account with the following information:', async function (dataTable) {
   let expectedBand = createObjArrayFromTable(dataTable)
   expectedBand.missingInstruments = missingInstrumentsFromTableColumn(expectedBand.missingInstruments)
-  expectedBand.location = this.user.location.coords
-  expectedBand.locationFriendly = this.user.location.friendlyLocation
 
   this.user = await User.findById(this.user.id)
     .populate('bands')
-  expect(this.user.bands.length).to.eq(1)
+  expect(this.user.getBands().length).to.eq(1)
 
-  let band = this.user.bands[0]
-  expect(compareLocation(expectedBand.location, band.location.coordinates)).to.eq(true)
-  expect(band.locationFriendly).to.eq(expectedBand.locationFriendly)
-  expect(band.name).to.eq(expectedBand.name)
-  expect(band.bio).to.eq(expectedBand.bio)
+  let band = this.user.getBands()[0]
+
+  expect(band.getLocation().equals(this.user.getLocation())).to.eq(true)
+  expect(band.getBandName()).to.eq(expectedBand.bandName)
+  expect(band.getBio()).to.eq(expectedBand.bio)
 });
 
 Then('there should be no bands in the system', async function () {

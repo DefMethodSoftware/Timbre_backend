@@ -3,8 +3,9 @@ const request = require('supertest')
 const {
   createObjArrayFromTable,
   instrumentArrayFromTableColumn,
-  locationObjFromTableColumn,
-  missingInstrumentsFromTableColumn
+  locationFromTableColumn,
+  missingInstrumentsFromTableColumn,
+  locationParamsFromTableColumn
 } = require('./helpers/TableConverter.js')
 const Band = require('../../lib/models/Band.js')
 const User = require('../../lib/models/User.js')
@@ -33,7 +34,7 @@ When('I send a request to log in with {string} and {string}', function (email, p
 When('I send a request to set the following profile information:', function (dataTable) {
   let body = createObjArrayFromTable(dataTable)
   body.instruments = instrumentArrayFromTableColumn(body.instruments)
-  body.location = locationObjFromTableColumn(body.location)
+  body.location = locationParamsFromTableColumn(body.location)
 
   this.request = request(this.app)
     .patch(`/users/${this.user.id}`)
@@ -45,7 +46,7 @@ When('I send a request to set the following profile information:', function (dat
 When('I send an unauthenticated request to set the following profile information:', function (dataTable) {
   let body = createObjArrayFromTable(dataTable)
   body.instruments = instrumentArrayFromTableColumn(body.instruments)
-  body.location = locationObjFromTableColumn(body.location)
+  body.location = locationFromTableColumn(body.location)
 
   this.request = request(this.app)
     .patch(`/users/${this.anotherUser.id}`)
@@ -56,7 +57,7 @@ When('I send an unauthenticated request to set the following profile information
 When('I send a request to set the following profile information for {string}:', async function (email, dataTable) {
   let body = createObjArrayFromTable(dataTable)
   body.instruments = instrumentArrayFromTableColumn(body.instruments)
-  body.location = locationObjFromTableColumn(body.location)
+  body.location = locationFromTableColumn(body.location)
   const otherUser = await User.findOne({ email: email })
 
   this.request = request(this.app)
@@ -69,7 +70,7 @@ When('I send a request to set the following profile information for {string}:', 
 When('I send a request to set the following profile information for a non-existant user:', function (dataTable) {
   let body = createObjArrayFromTable(dataTable)
   body.instruments = instrumentArrayFromTableColumn(body.instruments)
-  body.location = locationObjFromTableColumn(body.location)
+  body.location = locationFromTableColumn(body.location)
 
   this.request = request(this.app)
     .patch('/users/12345678')
