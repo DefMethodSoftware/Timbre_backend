@@ -1,12 +1,26 @@
 const mongoose = require('mongoose');
 
 let url
-process.env.NODE_ENV === 'test' ?
-url = 'timbre_test' :
-url = 'timbre_dev'
-console.log("Connecting to ", url, " DB...")
+switch (process.env.NODE_ENV) {
+  case 'test':
+    url = process.env.MONGODB_TEST
+    console.log("Connecting to test DB...")
+    break;
+  case 'development':
+    url = process.env.MONGODB_DEV
+    console.log("Connecting to dev DB...")
+    break;
+  case 'production':
+    url = process.env.MONGODB_PROD
+    console.log("Connecting to production DB...")
+    break;
+  default:
+    url = process.env.MONGODB_DEV
+    console.log("Connecting to dev DB...")
+    break;
+} 
 
-mongoose.connect(`mongodb://127.0.0.1:27017/${url}`, {
+mongoose.connect(url, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
