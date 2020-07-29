@@ -11,7 +11,8 @@ const User = require('../../lib/models/User')
 const MembershipRequest = require('../../lib/models/MembershipRequest')
 const Location = require('../../lib/models/Location')
 
-Before(async function () {
+Before(async function (context) {
+  this.version = extractVersion(context.pickle.tags)
   await User.collection.deleteMany()
   await Band.collection.deleteMany()
   await MembershipRequest.collection.deleteMany()
@@ -22,3 +23,14 @@ Before(async function () {
 AfterAll(function() {
   mongoose.connection.close()
 })
+
+const extractVersion = (tags) => {
+  let version
+  tags.forEach(tag => {
+    if (tag.name.includes('version')) {
+      // comes in a @version: vx.x format
+      version = tag.name.split(" ")[1]
+    }
+  })
+  return version.length > 0 ? version : "v1.0"
+}
