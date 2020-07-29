@@ -8,9 +8,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport')
 
-const usersRouter = require('./lib/routers/users');
-const bandsRouter = require('./lib/routers/bands');
-const membershipRequestsRouter = require('./lib/routers/membershipRequests');
+const usersRouter = require('./lib/v1.0/routers/users');
+const bandsRouter = require('./lib/v1.0/routers/bands');
+const membershipRequestsRouter = require('./lib/v1.0/routers/membershipRequests');
 
 const app = express();
 
@@ -29,10 +29,6 @@ app.use(membershipRequestsRouter);
 
 require('./db/db')
 
-const User = require('./lib/models/User')
-const Band = require('./lib/models/Band')
-const MembershipRequest = require('./lib/models/MembershipRequest')
-const Location = require('./lib/models/Location')
 require('./config/passport');
 
 // catch 404 and forward to error handler
