@@ -3,6 +3,7 @@ Feature: User creates an account
   As a User
   I would like to be able to create an account
 
+  @version: v1.0
   Scenario: User sends an account creation request
     When I send a request to create the following user:
       | email         | username | password |
@@ -13,6 +14,7 @@ Feature: User creates an account
     And the response should contain a user ID
 
 
+  @version: v1.0
   Scenario: User tries to create a user with an email that is already taken
     Given there is a user in the system with the email "user@user.com" and username "testuser"
     When I send a request to create the following user:
@@ -21,6 +23,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: User tries to create a user with a username that is already taken
     Given there is a user in the system with the email "anotheruser@user.com" and username "testuser"
     When I send a request to create the following user:
@@ -29,6 +32,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: User tries to create a with an invalid email
     When I send a request to create the following user:
       | email         | username    | password |
@@ -36,6 +40,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: User tries to create a with an invalid email
     When I send a request to create the following user:
       | email         | username    | password |
@@ -43,6 +48,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: User tries to create a user without an email
     When I send a request to create the following user:
       | username    | password |
@@ -50,6 +56,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: User tries to create a user without username
     When I send a request to create the following user:
       | email         | password |
@@ -57,6 +64,7 @@ Feature: User creates an account
     Then the platform should respond that the request was bad
     And no email, username or authentication token should have been sent
 
+  @version: v1.0
   Scenario: user tries to create a user without a password:
     When I send a request to create the following user:
       | email         | username    | 

@@ -4,6 +4,7 @@ Feature: User completes the profile setup form
   I would like to be able to setup my profile
 
 
+  @version: v1.0
   Scenario: User sets their profile information
     Given I am logged in as a user
     And I have not set my profile information
@@ -20,6 +21,7 @@ Feature: User completes the profile setup form
     And my location coordinates should be "55.509865, -0.118092"
 
 
+  @version: v1.0
   Scenario: User updates their profile information
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -36,6 +38,7 @@ Feature: User completes the profile setup form
     And I should play "drums" at level 2
     And my friendly location should be "London"
 
+  @version: v1.0
   Scenario: User sets their profile information without a first name
     Given I am logged in as a user
     And I have not set my profile information
@@ -45,6 +48,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sets their profile information without a last name
     Given I am logged in as a user
     And I have not set my profile information
@@ -54,6 +58,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sets their profile information without a bio
     Given I am logged in as a user
     And I have not set my profile information
@@ -63,6 +68,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sets their profile information without any instruments
     Given I am logged in as a user
     And I have not set my profile information
@@ -72,6 +78,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sets their profile information without a location
     Given I am logged in as a user
     And I have not set my profile information
@@ -81,6 +88,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sends incorrect location information
     Given I am logged in as a user
     When I send a request to set the following profile information:
@@ -89,6 +97,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User sends incorrect Instrument information
     Given I am logged in as a user
     When I send a request to set the following profile information:
@@ -97,6 +106,7 @@ Feature: User completes the profile setup form
     Then the platform should respond that the request was bad
     And my profile information should not be set
 
+  @version: v1.0
   Scenario: User tries to update the profile information of another user
     Given there is a user in the system with the email "user@london.com" and username "EnglishBandOwner"
     And I am logged in as a user
@@ -105,6 +115,7 @@ Feature: User completes the profile setup form
       | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 90, lat: 45 |
     Then the platform should respond that I am not allowed to do this
 
+  @version: v1.0
   Scenario: User tries to update a non-existant user
     Given I am logged in as a user
     When I send a request to set the following profile information for a non-existant user:
@@ -112,6 +123,7 @@ Feature: User completes the profile setup form
       | Test      | User     | I am a test user | guitar: 3, drums: 2 | friendly: London, long: 90, lat: 45 |
     Then the platform should respond that I am not allowed to do this
 
+  @version: v1.0
   Scenario: Unauthenticated user tries to submit profile information
     Given I am not logged in
     When I send an unauthenticated request to set the following profile information:

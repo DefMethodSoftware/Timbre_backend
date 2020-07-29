@@ -16,18 +16,21 @@ Feature: User can respond to their bands membership requests
       | firstName    | lastName | bio              | instruments | location                                            |
       | Spitalfields | User     | I am a test user | drums: 5    | friendly: London, long: 51.5173436, lat: -0.0754695 |
 
+  @version: v1.0
   Scenario: User accepts a membership request
     Given the user "user@london.com" has requested to join the band "Spitalfields Band"
     When I send a request to accept "user@london.com"'s request to join the band "Spitalfields Band"
     Then the platform should respond that the request was successful
     And there should be an accepted membership request in the system for "user@london.com" to join "Spitalfields Band"
 
+  @version: v1.0
   Scenario: User declines a membership request
     Given the user "user@london.com" has requested to join the band "Spitalfields Band"
     When I send a request to decline "user@london.com"'s request to join the band "Spitalfields Band"
     Then the platform should respond that the request was successful
     And there should be a declined membership request in the system for "user@london.com" to join "Spitalfields Band"
 
+  @version: v1.0
   Scenario: User cannot accept other users membership requests
     Given there is a user in the system with the email "user2@london.com" and username "CockneyBandOwner"
     And the user "user2@london.com" has set their profile information to:
@@ -40,6 +43,7 @@ Feature: User can respond to their bands membership requests
     When I send a request to accept "user@london.com"'s request to join the band "Oi Innit"
     Then the platform should respond that I am not allowed to do this
 
+  @version: v1.0
   Scenario: User cannot decline other users membership requests
     Given there is a user in the system with the email "user2@london.com" and username "CockneyBandOwner"
     And the user "user2@london.com" has set their profile information to:
@@ -52,6 +56,7 @@ Feature: User can respond to their bands membership requests
     When I send a request to decline "user@london.com"'s request to join the band "Oi Innit"
     Then the platform should respond that I am not allowed to do this
 
+  @version: v1.0
   Scenario: User cannot accept a previously declined membership request
     Given the user "user@london.com" has requested to join the band "Spitalfields Band"
     And I have declined "user@london.com"'s request to join "Spitalfields Band"
@@ -59,6 +64,7 @@ Feature: User can respond to their bands membership requests
     Then the platform should respond that the request was bad
     And there should be a declined membership request in the system for "user@london.com" to join "Spitalfields Band"
 
+  @version: v1.0
   Scenario: User cannot decline a previously accepted membership request
     Given the user "user@london.com" has requested to join the band "Spitalfields Band"
     And I have accepted "user@london.com"'s request to join "Spitalfields Band"
@@ -66,10 +72,12 @@ Feature: User can respond to their bands membership requests
     Then the platform should respond that the request was bad
     And there should be an accepted membership request in the system for "user@london.com" to join "Spitalfields Band"
 
+  @version: v1.0
   Scenario: User cannot accept a non-existant request
     When I send a request to accept some rubbish membership request
     Then the platform should respond that the request was bad
 
+  @version: v1.0
   Scenario: Unauthenticated user cannot accept membership requests
     Given I am not logged in
     And the user "user@london.com" has requested to join the band "Spitalfields Band"

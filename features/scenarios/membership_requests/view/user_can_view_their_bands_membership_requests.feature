@@ -13,6 +13,7 @@ Feature: User can see a list of membership requests for their bands
       | firstName | lastName | bio              | instruments | location                                            |
       | Another   | User     | I am a third test user | drums: 5    | friendly: London, long: 51.5173436, lat: -0.0754695 |
 
+  @version: v1.0
   Scenario: User sees an empty list of membership requests
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -25,6 +26,7 @@ Feature: User can see a list of membership requests for their bands
     Then the platform should respond that the request was successful
     And I should see an empty list of membership requests
 
+  @version: v1.0
   Scenario: User sees a list of membership requests
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -38,6 +40,7 @@ Feature: User can see a list of membership requests for their bands
     Then the platform should respond that the request was successful
     And I should see a request for "user@london.com" to join my band "Spitalfields Band"
 
+  @version: v1.0
   Scenario: User sees requests for all of their bands
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -56,6 +59,7 @@ Feature: User can see a list of membership requests for their bands
     And I should see a request for "user@london.com" to join my band "Spitalfields Band"
     And I should see a request for "user2@london.com" to join my band "Other Spitalfields Band"
 
+  @version: v1.0
   Scenario: User doesn't see requests previously actioned
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -72,6 +76,7 @@ Feature: User can see a list of membership requests for their bands
     Then the platform should respond that the request was successful
     And I should see an empty list of membership requests
 
+  @version: v1.0
   Scenario: User can't see other users membership requests
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -90,6 +95,7 @@ Feature: User can see a list of membership requests for their bands
     And I should see a request for "user@london.com" to join my band "Spitalfields Band"
     And I should not see a request for me to join "Cockney Band"
 
+  @version: v1.0
   Scenario: User can't see membership requests if they have not created a band
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -99,6 +105,7 @@ Feature: User can see a list of membership requests for their bands
     When I request to see a list of membership requests
     Then the platform should respond that the request was bad
 
+  @version: v1.0
   Scenario: Unauthenticated user can't see a list of membership requests
     Given I am not logged in
     When I send an unauthenticated request to see a list of membership requests
