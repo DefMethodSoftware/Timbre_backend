@@ -8,9 +8,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport')
 
-const usersRouter = require('./lib/v1.0/routers/users');
-const bandsRouter = require('./lib/v1.0/routers/bands');
-const membershipRequestsRouter = require('./lib/v1.0/routers/membershipRequests');
+const usersRouter = require('./lib/routers/v1.0/users');
+const bandsRouter = require('./lib/routers/v1.0/bands');
+const membershipRequestsRouter = require('./lib/routers/v1.0/membershipRequests');
 
 const app = express();
 
