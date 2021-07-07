@@ -26,6 +26,7 @@ Feature: User can see a list of bands near them
       | bandName   | missingInstruments | bio                  |
       | Paris Band | guitar: 1          | We are tre cool band |
 
+  @version: v1.0
   Scenario: User sees a band in their area that needs their instrument
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -37,12 +38,14 @@ Feature: User can see a list of bands near them
     And I should not see the band "Oi Innit"
     And I should not see the band "Paris Band"
 
+  @version: v1.0
   Scenario: User with incomplete profile does not see a list of bands
     Given I am logged in as a user
     And I have not set my profile information
     When I request to see bands in my area
     Then the platform should respond that the request was bad
 
+  @version: v1.0
   Scenario: Unauthenticated user does not see a list of bands
     Given I am not logged in
     When I send an unauthenticated request to see a list of bands

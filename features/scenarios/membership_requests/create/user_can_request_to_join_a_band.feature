@@ -12,6 +12,7 @@ Feature: User can request to join a band
       | bandName    | missingInstruments | bio                |
       | London Band | guitar: 1          | We are a cool band |
 
+  @version: v1.0
   Scenario: User creates a membership request for a band
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -21,6 +22,7 @@ Feature: User can request to join a band
     Then the platform should respond that the creation was successful
     And there should be a membership request in the system for me to join "London Band"
 
+  @version: v1.0
   Scenario: User requests to join a band that doesn't require their instrument
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -30,6 +32,7 @@ Feature: User can request to join a band
     Then the platform should respond that the request was bad
     And there should be no membership requests in the system
 
+  @version: v1.0
   Scenario: User requests to join a band outside their area
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -39,6 +42,7 @@ Feature: User can request to join a band
     Then the platform should respond that the request was bad
     And there should be no membership requests in the system
 
+  @version: v1.0
   Scenario: User tries to join a non existant band
     Given I am logged in as a user
     And I have previously set my profile information to:
@@ -48,6 +52,7 @@ Feature: User can request to join a band
     Then the platform should respond that the request was bad
     And there should be no membership requests in the system
 
+  @version: v1.0
   Scenario: User with incomplete profile tries to join a band
     Given I am logged in as a user
     And I have not set my profile information
@@ -55,6 +60,7 @@ Feature: User can request to join a band
     Then the platform should respond that the request was bad
     And there should be no membership requests in the system
 
+  @version: v1.0
   Scenario: Unauthenticated user tries to join a band
     Given I am not logged in
     When I send an unauthenticated request to join "London Band"

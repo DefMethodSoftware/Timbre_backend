@@ -15,9 +15,9 @@ const MembershipRequest = require('../../lib/models/MembershipRequest.js')
 When('I send a request to create the following user:',  function (userDetails) {
   userDetails = createObjArrayFromTable(userDetails)
   this.request = request(this.app)
-  .post('/users')
-  .set('Content-Type', 'application/json')
-  .send(userDetails)
+    .post(`/${this.version}/users`)
+    .set('Content-Type', 'application/json')
+    .send(userDetails)
 });
 
 When('I send a request to log in with {string} and {string}', function (email, password) {
@@ -26,9 +26,9 @@ When('I send a request to log in with {string} and {string}', function (email, p
     password: password
   }
   this.request = request(this.app)
-  .post('/users/login')
-  .set('Content-Type', 'application/json')
-  .send(body)
+    .post(`/${this.version}/users/login`)
+    .set('Content-Type', 'application/json')
+    .send(body)
 });
 
 When('I send a request to set the following profile information:', function (dataTable) {
@@ -37,7 +37,7 @@ When('I send a request to set the following profile information:', function (dat
   body.location = locationParamsFromTableColumn(body.location)
 
   this.request = request(this.app)
-    .patch(`/users/${this.user.id}`)
+    .patch(`/${this.version}/users/${this.user.id}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send(body)
@@ -49,7 +49,7 @@ When('I send an unauthenticated request to set the following profile information
   body.location = locationFromTableColumn(body.location)
 
   this.request = request(this.app)
-    .patch(`/users/${this.anotherUser.id}`)
+    .patch(`/${this.version}/users/${this.anotherUser.id}`)
     .set('Content-Type', 'application/json')
     .send(body)
 });
@@ -61,7 +61,7 @@ When('I send a request to set the following profile information for {string}:', 
   const otherUser = await User.findOne({ email: email })
 
   this.request = request(this.app)
-    .patch(`/users/${otherUser.id}`)
+    .patch(`/${this.version}/users/${otherUser.id}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send(body)
@@ -73,7 +73,7 @@ When('I send a request to set the following profile information for a non-exista
   body.location = locationFromTableColumn(body.location)
 
   this.request = request(this.app)
-    .patch('/users/12345678')
+    .patch(`/${this.version}/users/12345678`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send(body)
@@ -84,7 +84,7 @@ When('I send a request to create the following band:', function (dataTable) {
   body.missingInstruments = missingInstrumentsFromTableColumn(body.missingInstruments)
 
   this.request = request(this.app)
-    .post('/bands')
+    .post(`/${this.version}/bands`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send(body)
@@ -95,14 +95,14 @@ When('I send an unauthenticated request to create the following band:', function
   body.missingInstruments = missingInstrumentsFromTableColumn(body.missingInstruments)
 
   this.request = request(this.app)
-    .post('/bands')
+    .post(`/${this.version}/bands`)
     .set('Content-Type', 'application/json')
     .send(body)
 });
 
 When('I request to see bands in my area', function () {
   this.request = request(this.app)
-    .get('/bands')
+    .get(`/${this.version}/bands`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send()
@@ -110,7 +110,7 @@ When('I request to see bands in my area', function () {
 
 When('I send an unauthenticated request to see a list of bands', function () {
   this.request = request(this.app)
-    .get('/bands')
+    .get(`/${this.version}/bands`)
     .set('Content-Type', 'application/json')
     .send()
 });
@@ -118,7 +118,7 @@ When('I send an unauthenticated request to see a list of bands', function () {
 When('I send a request to join {string}', async function (bandName) {
   let band = await Band.findOne({ bandName: bandName })
   this.request = request(this.app)
-    .post(`/bands/${band.id}/membership_requests`)
+    .post(`/${this.version}/bands/${band.id}/membership_requests`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send()
@@ -127,14 +127,14 @@ When('I send a request to join {string}', async function (bandName) {
 When('I send an unauthenticated request to join {string}', async function (bandName) {
     let band = await Band.findOne({ bandName: bandName })
   this.request = request(this.app)
-    .post(`/bands/${band.id}/membership_requests`)
+    .post(`/${this.version}/bands/${band.id}/membership_requests`)
     .set('Content-Type', 'application/json')
     .send()
 });
 
 When('I send a request to join a non-existant Band', function () {
     this.request = request(this.app)
-    .post(`/bands/12345678/membership_requests`)
+    .post(`/${this.version}/bands/12345678/membership_requests`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send()
@@ -142,7 +142,7 @@ When('I send a request to join a non-existant Band', function () {
 
 When('I request to see a list of membership requests', function () {
   this.request = request(this.app)
-    .get('/membership_requests')
+    .get(`/${this.version}/membership_requests`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send()
@@ -150,7 +150,7 @@ When('I request to see a list of membership requests', function () {
 
 When('I send an unauthenticated request to see a list of membership requests', function () {
   this.request = request(this.app)
-    .get('/membership_requests')
+    .get(`/${this.version}/membership_requests`)
     .set('Content-Type', 'application/json')
     .send()
 });
@@ -161,7 +161,7 @@ When('I send a request to accept {string}\'s request to join the band {string}',
   const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
 
   this.request = request(this.app)
-    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .patch(`/${this.version}/bands/${band.id}/membership_requests/${membershipRequest.id}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send({
@@ -175,7 +175,7 @@ When('I send a request to decline {string}\'s request to join the band {string}'
   const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
 
   this.request = request(this.app)
-    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .patch(`/${this.version}/bands/${band.id}/membership_requests/${membershipRequest.id}`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send({
@@ -185,7 +185,7 @@ When('I send a request to decline {string}\'s request to join the band {string}'
 
 When('I send a request to accept some rubbish membership request', function () {
   this.request = request(this.app)
-    .patch(`/bands/12345678/membership_requests/12345678`)
+    .patch(`/${this.version}/bands/12345678/membership_requests/12345678`)
     .set('Content-Type', 'application/json')
     .set('Authorization', this.user.generateJWT())
     .send({
@@ -199,9 +199,13 @@ When('I send an unauthenticated request to accept {string}\'s requests to join t
   const membershipRequest = await MembershipRequest.findOne({ band: band.id, user: user.id })
 
   this.request = request(this.app)
-    .patch(`/bands/${band.id}/membership_requests/${membershipRequest.id}`)
+    .patch(`/${this.version}/bands/${band.id}/membership_requests/${membershipRequest.id}`)
     .set('Content-Type', 'application/json')
     .send({
       approved: true
     })
 });
+
+const sendVersionedRequest = (method, url, token, body) => {
+
+}

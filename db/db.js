@@ -18,10 +18,12 @@ switch (process.env.NODE_ENV) {
     url = process.env.MONGODB_DEV
     console.log("Connecting to dev DB...")
     break;
-} 
+}
 
 mongoose.connect(url, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
 });
+
+console.log("Connected!")
