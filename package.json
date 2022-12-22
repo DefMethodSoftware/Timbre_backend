@@ -19,7 +19,7 @@
     "express-jwt": "^6.0",
     "geopoint": "^1.0",
     "http-errors": "^1.7",
-    "jsonwebtoken": "^8.5",
+    "jsonwebtoken": "^9.0",
     "mongoose": "^5.9",
     "mongoose-unique-validator": "^2.0",
     "morgan": "^1.10",
